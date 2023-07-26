@@ -6,7 +6,7 @@
 /*   By: malancar <malancar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 14:00:37 by malancar          #+#    #+#             */
-/*   Updated: 2023/07/25 17:37:33 by malancar         ###   ########.fr       */
+/*   Updated: 2023/07/26 18:16:57 by malancar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,6 @@ int	main(int ac, char **av)
 	tab = malloc(sizeof(t_philo) * info.philo->nbr);
 	if (!tab)
 		return (0);
+	
 	printf("oki\n");
 }

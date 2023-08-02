@@ -6,7 +6,7 @@
 /*   By: malancar <malancar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 14:00:45 by malancar          #+#    #+#             */
-/*   Updated: 2023/07/27 15:27:39 by malancar         ###   ########.fr       */
+/*   Updated: 2023/08/02 21:51:07 by malancar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,7 @@
 
 typedef struct s_mutex
 {
-	pthread_mutex_t    mutex;
-	unsigned int	philo;
-	unsigned int	philo1;
-	unsigned int	philo2;
-	unsigned int	philo_nbr;
+	pthread_mutex_t    mutex_print;
 	
 }	t_mutex;
 
@@ -46,17 +42,17 @@ typedef	struct s_info
 
 typedef	struct s_philo
 {
-	t_info			info;
-	unsigned long	tid;
+	t_info			*info;
 	t_mutex			mutex;
+	pthread_t		tid;
+	int				index;
 	
 }	t_philo;
 
 
-
 int	ft_atoi(char *str);
 unsigned long get_time_millisec();
-void	init_thread(t_mutex *var, t_info info, t_philo *philo);
-
+void	init_thread(t_philo *philo, t_info info);
+void	init_info_philo(char **av, t_info *info);
 
 #endif

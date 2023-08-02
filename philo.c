@@ -6,7 +6,7 @@
 /*   By: malancar <malancar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 14:00:37 by malancar          #+#    #+#             */
-/*   Updated: 2023/07/27 15:27:04 by malancar         ###   ########.fr       */
+/*   Updated: 2023/08/02 21:50:44 by malancar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,32 +46,31 @@ int		check_args(int ac, char **av)
 	return (1);
 }
 
-void	init_info_philo(char **av, t_info *info)
-{
-	info->nbr = ft_atoi(av[1]);
-	info->time_to_die = ft_atoi(av[2]);
-	info->time_to_eat = ft_atoi(av[3]);
-	info->time_to_sleep = ft_atoi(av[4]);
 
-	//info->philo->nbr_fork = info->philo->nbr;
-}
 
 int	main(int ac, char **av)
 {
 	t_philo	*philo;
 	t_info	info;
 	t_mutex var;
-
+	int		nbr;
 	
+	philo = NULL;
 	if (!check_args(ac, av))
 		return (0);
-	init_info_philo(av, &info);
-	philo = malloc(sizeof(t_philo) * info.nbr);
+	nbr = ft_atoi(av[1]);
+	//philo->info.nbr = ft_atoi(av[1]);
+	//init_info_philo(av, &info);
+	philo = malloc(sizeof(t_philo) * nbr);
 	if (!philo)
 		return (0);
+	
+	//philo[philo->index] 
+	//init_info_philo(av,  &philo[philo->index]);
+	init_info_philo(av, &info);
 	//philo[i].info = info;
-	pthread_mutex_init(&var.mutex, NULL);
-	init_thread(&var, info);
+	pthread_mutex_init(&var.mutex_print, NULL);
+	init_thread(philo, info);
 	//printf("Main: Creation du premier thread [%ld]\n", tid1);
 	
 	//printf("Main: Union du premier thread [%ld]\n", tid1);

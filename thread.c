@@ -6,63 +6,111 @@
 /*   By: malancar <malancar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 14:09:16 by malancar          #+#    #+#             */
-/*   Updated: 2023/08/02 21:39:47 by malancar         ###   ########.fr       */
+/*   Updated: 2023/08/10 19:19:58 by malancar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+unsigned long		get_time(unsigned long *current_time)
+{
+	struct timeval  time;
+	unsigned long	start_time;
+	
+	gettimeofday(&time, NULL);
+	start_time = get_time_millisec();
+	*current_time = get_time_millisec() - start_time;
+	printf("current time = %lu\n", *current_time);
+	return (*current_time);
+}
+
+void	eating(t_philo *philo, unsigned long *current_time)
+{
+	while (1)
+	{
+		//printf("cc la\n");
+		*current_time = get_time(current_time);
+		printf("current time = %lu\n", *current_time);
+		if (*current_time == philo->info->time_to_eat)
+			break ;
+		pthread_mutex_lock(&philo->info->forks[philo->index]);
+		pthread_mutex_lock(&philo->info->forks[(philo->index) + 1]);
+		//printf("%lu philo %d is eating\n", *current_time, philo->index);
+		pthread_mutex_unlock(&philo->info->forks[philo->index]);
+		pthread_mutex_unlock(&philo->info->forks[(philo->index) + 1]);
+	}
+}
+
+void	sleeping(t_philo *philo, unsigned long *current_time)
+{
+	while (1)
+	{	
+		*current_time = get_time(current_time);
+		if (*current_time == philo->info->time_to_sleep)
+			break ;
+		printf("%lu philo %d is sleeping\n", *current_time, philo->index);
+	}
+}
+
+// void	thinking(t_philo *philo)
+// {
+// 	unsigned long current_time;
+
+// 	current_time = get_time();
+// 	printf("%lu philo %d is thinking %lu\n", current_time, philo->index, philo[philo->index].info->time_to_die);
+// }
+
 void	init_info_philo(char **av, t_info *info)
 {
 	info->nbr = ft_atoi(av[1]);
+	info->forks = malloc(sizeof(pthread_mutex_t) * info->nbr);
+	if (!info->forks)
+		return ;
 	info->time_to_die = ft_atoi(av[2]);
 	info->time_to_eat = ft_atoi(av[3]);
-	info->time_to_sleep = ft_atoi(av[4]);  
-	//info->philo->nbr_fork = info->philo->nbr;
-// 	printf("philo %d nbr = %d\n", (*philo)->index, (*philo)[(*philo)->index].info.nbr);
-// 	printf("philo %d time to die %d\n", (*philo)->index, (*philo)[(*philo)->index].info.time_to_die);
-// 	printf("philo %d tim to eat %d\n", (*philo)->index, (*philo)[(*philo)->index].info.time_to_eat);
-// 	printf("philo %d time to sleep %d\n", (*philo)->index, (*philo)[(*philo)->index].info.time_to_sleep);
+	info->time_to_sleep = ft_atoi(av[4]);
+	//info->nbr_time_philo_must_eat = ft_atoi(av[5]);
 }
+
+
 
 void	*thread_routine(void *data)
 {
-	int	i;
+	int				i;
 	t_philo			*philo;
-	struct timeval  time;
-	unsigned long	start_time;
 	unsigned long	current_time;
-	
+
 	i = 0;
 	philo = (t_philo *)data;
-	//printf("cc\n");
-	//printf("philo->info->nbr ici = %p\n", &philo->info->nbr);
-	gettimeofday(&time, NULL);
-	start_time = get_time_millisec();
-	while (i < 1)
+	current_time = 0;
+	while (1)
 	{
-		current_time = get_time_millisec() - start_time;
-		//printf("current time = %lu start time = %lu\n", current_time, start_time);
-		//printf("%s%lu Philo %lu is eating %s\n", YELLOW, current_time, info->tid, NC);
-		//printf("%s%lu Philo %lu is sleeping %s\n", RED, current_time, info->tid, NC);	
-		pthread_mutex_lock(&philo->mutex.mutex);
-		printf("philo %d time to die %d\n", philo->index, philo[philo->index].info->time_to_die);
-		pthread_mutex_unlock(&philo->mutex.mutex);
-		pthread_mutex_lock(&philo->mutex.mutex);
-		printf("philo %d tim to eat %d\n", philo->index, philo[philo->index].info->time_to_eat);
-		pthread_mutex_unlock(&philo->mutex.mutex);
-		pthread_mutex_lock(&philo->mutex.mutex);
-		printf("philo %d time to sleep %d\n", philo->index, philo[philo->index].info->time_to_sleep);
-		pthread_mutex_unlock(&philo->mutex.mutex);
-		i++;
-	}
-	
+		printf("cc\n");
+		if (i == 0)
+		{
+			if (philo->index % 2 == 0)
+				eating(philo, &current_time);
+		}
+		else if (i > 0)
+		{
+			//printf("cc ici\n");
+			eating(philo, &current_time);
+			sleeping(philo, &current_time);
+		}
+			// if (philo[philo->index]->info->forks[philo->index] == 1 || philo[philo->index]->info->forks[philo->index + 1] == 1)
+			// {
+			// 	thinking(philo);
+			// }
+		
+		i++;	
+		}
+		
 	return (NULL);
 }
 
 void	init_thread(t_philo *philo, t_info info)
 {
-	int	i;
+	unsigned int	i;
 
 	i = 0;
 	philo->index = 0;
@@ -78,8 +126,8 @@ void	init_thread(t_philo *philo, t_info info)
 	i = 0;
 	while (i < info.nbr)
 	{
-		pthread_join(philo->tid, NULL);
-		//printf("cc join\n");
+		pthread_join(philo[i].tid, NULL);
+		//printf("tid = %lu\n", philo[i].tid);
 		i++;
 	}
 	

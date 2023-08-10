@@ -6,7 +6,7 @@
 /*   By: malancar <malancar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 14:00:37 by malancar          #+#    #+#             */
-/*   Updated: 2023/08/02 21:50:44 by malancar         ###   ########.fr       */
+/*   Updated: 2023/08/10 17:16:05 by malancar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ int	main(int ac, char **av)
 {
 	t_philo	*philo;
 	t_info	info;
-	t_mutex var;
 	int		nbr;
 	
 	philo = NULL;
@@ -69,7 +68,7 @@ int	main(int ac, char **av)
 	//init_info_philo(av,  &philo[philo->index]);
 	init_info_philo(av, &info);
 	//philo[i].info = info;
-	pthread_mutex_init(&var.mutex_print, NULL);
+	pthread_mutex_init(info.forks, NULL);
 	init_thread(philo, info);
 	//printf("Main: Creation du premier thread [%ld]\n", tid1);
 	

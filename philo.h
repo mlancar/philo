@@ -6,7 +6,7 @@
 /*   By: malancar <malancar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 14:00:45 by malancar          #+#    #+#             */
-/*   Updated: 2023/08/02 21:51:07 by malancar         ###   ########.fr       */
+/*   Updated: 2023/08/13 19:24:43 by malancar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,25 +25,22 @@
 #define RED	"\e[31m"
 #define GREEN	"\e[32m"
 
-typedef struct s_mutex
-{
-	pthread_mutex_t    mutex_print;
-	
-}	t_mutex;
-
 typedef	struct s_info
 {
-	int	nbr;
-	int	time_to_die;
-	int	time_to_sleep;
-	int	time_to_eat;
+	unsigned int    nbr;
+	unsigned long	time_to_die;
+	unsigned long	time_to_sleep;
+	unsigned long	time_to_eat;
+	unsigned long	nbr_time_philo_must_eat;
+	unsigned long	start_time;
+	pthread_mutex_t	*forks;
 	
 }	t_info;
 
 typedef	struct s_philo
 {
 	t_info			*info;
-	t_mutex			mutex;
+	//pthread_mutex_t	mutex;
 	pthread_t		tid;
 	int				index;
 	

@@ -6,7 +6,7 @@
 /*   By: malancar <malancar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 14:00:37 by malancar          #+#    #+#             */
-/*   Updated: 2023/08/10 17:16:05 by malancar         ###   ########.fr       */
+/*   Updated: 2023/08/13 19:40:27 by malancar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int		check_args(int ac, char **av)
 	int	i;
 	int	j;
 	
-	if (ac != 5)
+	if (ac < 5)
 		return (0);
 	i = 0;
 	while (av[i])
@@ -55,6 +55,7 @@ int	main(int ac, char **av)
 	int		nbr;
 	
 	philo = NULL;
+	
 	if (!check_args(ac, av))
 		return (0);
 	nbr = ft_atoi(av[1]);

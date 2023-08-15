@@ -6,7 +6,7 @@
 /*   By: malancar <malancar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 14:00:45 by malancar          #+#    #+#             */
-/*   Updated: 2023/08/13 19:24:43 by malancar         ###   ########.fr       */
+/*   Updated: 2023/08/15 15:51:18 by malancar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,22 +34,39 @@ typedef	struct s_info
 	unsigned long	nbr_time_philo_must_eat;
 	unsigned long	start_time;
 	pthread_mutex_t	*forks;
+	pthread_mutex_t	print;
+	pthread_mutex_t	wait;
 	
 }	t_info;
 
 typedef	struct s_philo
 {
-	t_info			*info;
+	t_info			*table;
 	//pthread_mutex_t	mutex;
 	pthread_t		tid;
 	int				index;
+	pthread_mutex_t	left_fork;
+	pthread_mutex_t	right_fork;
+	
 	
 }	t_philo;
 
 
 int	ft_atoi(char *str);
 unsigned long get_time_millisec();
-void	init_thread(t_philo *philo, t_info info);
-void	init_info_philo(char **av, t_info *info);
+void	init_thread(t_philo *philo, t_info table);
+void	init_table(char **av, t_info *table);
+unsigned long get_time_millisec();
+unsigned long		get_time(t_philo *philo, unsigned long *current_time);
+void	print_philo(t_philo *philo, unsigned long *current_time, char *str);
+void	eating(t_philo *philo, unsigned long *current_time);
+void	sleeping(t_philo *philo, unsigned long *current_time);
+void	thinking(t_philo *philo);
+void	init_tableo(char **av, t_info *table);
+int	init_mutex(t_info table);
+int		check_args(int ac, char **av);
+int	ft_atoi(char *str);
 
+
+	
 #endif

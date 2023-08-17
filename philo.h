@@ -6,7 +6,7 @@
 /*   By: malancar <malancar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 14:00:45 by malancar          #+#    #+#             */
-/*   Updated: 2023/08/15 15:51:18 by malancar         ###   ########.fr       */
+/*   Updated: 2023/08/17 18:30:32 by malancar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,18 +54,18 @@ typedef	struct s_philo
 
 int	ft_atoi(char *str);
 unsigned long get_time_millisec();
-void	init_thread(t_philo *philo, t_info table);
-void	init_table(char **av, t_info *table);
+void	init_thread(t_philo *philo, t_info *table);
 unsigned long get_time_millisec();
 unsigned long		get_time(t_philo *philo, unsigned long *current_time);
 void	print_philo(t_philo *philo, unsigned long *current_time, char *str);
 void	eating(t_philo *philo, unsigned long *current_time);
 void	sleeping(t_philo *philo, unsigned long *current_time);
 void	thinking(t_philo *philo);
-void	init_tableo(char **av, t_info *table);
-int	init_mutex(t_info table);
+void	init_table(char **av, t_info *table);
+int		init_mutex(t_info *table);
 int		check_args(int ac, char **av);
-int	ft_atoi(char *str);
+int		ft_atoi(char *str);
+void	init_forks(t_info *table, t_philo *philo);
 
 
 	

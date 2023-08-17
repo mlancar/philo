@@ -6,7 +6,7 @@
 /*   By: malancar <malancar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 14:00:37 by malancar          #+#    #+#             */
-/*   Updated: 2023/08/15 15:28:16 by malancar         ###   ########.fr       */
+/*   Updated: 2023/08/17 18:31:05 by malancar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	main(int ac, char **av)
 	int		nbr;
 	
 	philo = NULL;
+	
 	if (!check_args(ac, av))
 		return (0);
 	nbr = ft_atoi(av[1]);
@@ -43,8 +44,8 @@ int	main(int ac, char **av)
 	if (!philo)
 		return (0);
 	init_table(av, &table);
-	if (!init_mutex(table))
+	if (!init_mutex(&table))
 		return (0);
-	init_thread(philo, table);
-	printf("oki\n");
+	init_thread(philo, &table);
+	//printf("oki\n");
 }

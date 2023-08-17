@@ -6,7 +6,7 @@
 /*   By: malancar <malancar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 14:09:16 by malancar          #+#    #+#             */
-/*   Updated: 2023/08/15 15:51:05 by malancar         ###   ########.fr       */
+/*   Updated: 2023/08/17 18:32:23 by malancar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,10 @@ void	*thread_routine(void *data)
 	unsigned long	current_time;
 
 	i = 1;
+	int j = 4;
 	philo = (t_philo *)data;
 	current_time = 0;
-	while (1)
+	while (i <= j)
 	{
 		pthread_mutex_lock(&philo->table->wait);
 		pthread_mutex_unlock(&philo->table->wait);
@@ -39,26 +40,28 @@ void	*thread_routine(void *data)
 	return (NULL);
 }
 
-void	init_thread(t_philo *philo, t_info table)
+void	init_thread(t_philo *philo, t_info *table)
 {
 	unsigned int	i;
 
 	i = 1;
 	philo->index = 1;
-	printf("philo->index = %d\n", philo->index);
-	pthread_mutex_lock(&philo->table->wait);
-	while (i < table.nbr)
+	//printf("philo->index = %d\n", philo->index);
+	//printf("table nbr = %u\n", table.nbr);
+	init_forks(table, philo);
+	pthread_mutex_lock(&table->wait);
+	while (i <= table->nbr)
 	{
-		philo[i].table = &table;
+		philo[i].table = table;
 		if (philo->index % 2 == 0)
 			usleep(philo->table->time_to_eat);
 		pthread_create(&philo[i].tid, NULL, thread_routine, &philo[i]);
 		philo[i].index = i;
 		i++;
 	}
-	pthread_mutex_unlock(&philo->table->wait);
+	pthread_mutex_unlock(&table->wait);
 	i = 1;
-	while (i < table.nbr)
+	while (i < table->nbr)
 	{
 		pthread_join(philo[i].tid, NULL);
 		//printf("tid = %lu\n", philo[i].tid);

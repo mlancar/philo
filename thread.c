@@ -6,7 +6,7 @@
 /*   By: malancar <malancar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 14:09:16 by malancar          #+#    #+#             */
-/*   Updated: 2023/08/17 18:32:23 by malancar         ###   ########.fr       */
+/*   Updated: 2023/08/18 18:45:21 by malancar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	*thread_routine(void *data)
 	current_time = 0;
 	while (i <= j)
 	{
+		
 		pthread_mutex_lock(&philo->table->wait);
 		pthread_mutex_unlock(&philo->table->wait);
 		eating(philo, &current_time);
@@ -52,6 +53,10 @@ void	init_thread(t_philo *philo, t_info *table)
 	pthread_mutex_lock(&table->wait);
 	while (i <= table->nbr)
 	{
+		if (i == table->nbr)
+		{
+			philo->right_fork = philo[philo->index].table->forks[0];
+		}
 		philo[i].table = table;
 		if (philo->index % 2 == 0)
 			usleep(philo->table->time_to_eat);

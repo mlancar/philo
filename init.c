@@ -6,7 +6,7 @@
 /*   By: malancar <malancar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 14:39:07 by malancar          #+#    #+#             */
-/*   Updated: 2023/08/18 18:04:53 by malancar         ###   ########.fr       */
+/*   Updated: 2023/08/23 16:52:15 by malancar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	init_table(char **av, t_info *table)
 
 int	init_mutex(t_info *table)
 {
-	unsigned int	i;
+	int	i;
 
 	i = 0;
 	while (i < table->nbr)
@@ -59,6 +59,9 @@ int	init_mutex(t_info *table)
 
 void	init_forks(t_info *table, t_philo *philo)
 {
-	philo->left_fork = table->forks[philo->index];
-	philo->right_fork = table->forks[(philo->index) + 1];
+	philo->left_fork = &table->forks[philo->index];
+	if (philo->index == table->nbr - 1)
+			philo->right_fork = &table->forks[0];
+	else
+		philo->right_fork = &table->forks[(philo->index) - 1];
 }

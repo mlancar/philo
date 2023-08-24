@@ -6,7 +6,7 @@
 /*   By: malancar <malancar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 14:09:16 by malancar          #+#    #+#             */
-/*   Updated: 2023/08/23 17:19:22 by malancar         ###   ########.fr       */
+/*   Updated: 2023/08/24 18:52:38 by malancar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void	*thread_routine(void *data)
 	unsigned long	current_time;
 
 	i = 0;
-	int j = 4;
 	philo = (t_philo *)data;
 	current_time = 0;
 	if (philo[i].index % 2 == 0)
@@ -34,14 +33,20 @@ void	*thread_routine(void *data)
 		//printf("cc\n");
 		usleep(philo->table->time_to_eat * 1000);
 	}
-	while (i < j)
+	while (1)
 	{
 		pthread_mutex_lock(&philo->table->wait);
 		pthread_mutex_unlock(&philo->table->wait);
-		
-		eating(philo, &current_time);
+		if (philo->table->has_eaten == -1 ||
+			philo->table->has_eaten <= philo->table->nbr_time_philo_must_eat)
+		{
+			eating(philo, &current_time);
+		}
+		if (philo->table->has_eaten == philo->table->nbr_time_philo_must_eat)
+			return (0);
 		sleeping(philo, &current_time);
-		thinking(philo, &current_time);
+		if (philo->table->nbr % 2 == 1)
+			thinking(philo, &current_time);
 		i++;
 	}
 	return (NULL);
@@ -60,11 +65,9 @@ void	init_thread(t_philo *philo, t_info *table)
 	
 	while (i < table->nbr)
 	{
-		
 		philo[i].index = i;
 		philo[i].table = table;
 		init_forks(table, &philo[i]);
-		
 		pthread_create(&philo[i].tid, NULL, thread_routine, &philo[i]);
 		i++;
 		

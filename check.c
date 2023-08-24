@@ -6,7 +6,7 @@
 /*   By: malancar <malancar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 14:44:56 by malancar          #+#    #+#             */
-/*   Updated: 2023/08/17 14:59:27 by malancar         ###   ########.fr       */
+/*   Updated: 2023/08/24 18:35:05 by malancar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int		check_args(int ac, char **av)
 	int	i;
 	int	j;
 	
-	if (ac < 5)
+	if (ac < 5 || ac > 6)
 		return (0);
 	i = 0;
 	while (av[i])
@@ -34,4 +34,7 @@ int		check_args(int ac, char **av)
 	return (1);
 }
 
-//int	check_death(t_philo *philo)
+// int	check_death(t_philo *philo)
+// {
+	
+// }

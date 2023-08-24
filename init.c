@@ -6,27 +6,29 @@
 /*   By: malancar <malancar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 14:39:07 by malancar          #+#    #+#             */
-/*   Updated: 2023/08/23 16:52:15 by malancar         ###   ########.fr       */
+/*   Updated: 2023/08/24 18:33:33 by malancar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	init_table(char **av, t_info *table)
+void	init_table(int ac, char **av, t_info *table)
 {
 	
 	table->nbr = ft_atoi(av[1]);
 	table->forks = malloc(sizeof(pthread_mutex_t) * table->nbr);
 	if (!table->forks)
 		return ;
-	
+	//return 0 
+	table->has_eaten = 0;
 	table->time_to_die = ft_atoi(av[2]);
 	table->time_to_eat = ft_atoi(av[3]);
 	table->time_to_sleep = ft_atoi(av[4]);
+	if (ac == 6)
+		table->nbr_time_philo_must_eat = ft_atoi(av[5]);
+	else
+		table->nbr_time_philo_must_eat = -1;
 	table->start_time = get_time_millisec();
-	
-	//info->nbr_time_philo_must_eat = ft_atoi(av[5]);
-	//printf("must eat = %lu\n", info->nbr_time_philo_must_eat);
 }
 
 int	init_mutex(t_info *table)
@@ -61,7 +63,7 @@ void	init_forks(t_info *table, t_philo *philo)
 {
 	philo->left_fork = &table->forks[philo->index];
 	if (philo->index == table->nbr - 1)
-			philo->right_fork = &table->forks[0];
+		philo->right_fork = &table->forks[0];
 	else
-		philo->right_fork = &table->forks[(philo->index) - 1];
+		philo->right_fork = &table->forks[(philo->index) + 1];
 }

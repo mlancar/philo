@@ -6,7 +6,7 @@
 /*   By: malancar <malancar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 14:40:31 by malancar          #+#    #+#             */
-/*   Updated: 2023/08/23 16:47:33 by malancar         ###   ########.fr       */
+/*   Updated: 2023/08/24 18:34:15 by malancar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,36 +14,35 @@
 
 void	eating(t_philo *philo, unsigned long *current_time)
 {
+	*current_time = get_time(philo, current_time);
+	if (philo->index % 2 == 0)
+	{
+		pthread_mutex_lock(philo->left_fork);
 		*current_time = get_time(philo, current_time);
-		if (philo->index % 2 == 0)
-		{
-			pthread_mutex_lock(philo->left_fork);
-			*current_time = get_time(philo, current_time);
-			print_philo(philo, current_time, "has taken a fork");
-			pthread_mutex_lock(philo->right_fork);
-			*current_time = get_time(philo, current_time);
-			print_philo(philo, current_time, "has taken a fork");
-			*current_time = get_time(philo, current_time);
-			print_philo(philo, current_time, "is eating");
-		}
-		else
-		{
-			pthread_mutex_lock(philo->right_fork);
-			*current_time = get_time(philo, current_time);
-			print_philo(philo, current_time, "has taken a fork");
-			pthread_mutex_lock(philo->left_fork);
-			*current_time = get_time(philo, current_time);
-			print_philo(philo, current_time, "has taken a fork");
-			*current_time = get_time(philo, current_time);
-			print_philo(philo, current_time, "is eating");
-		}
-		
-		
-		//print_philo(philo, current_time, "is eating");
-		usleep(philo->table->time_to_eat * 1000);
-		pthread_mutex_unlock(philo->left_fork);
-		pthread_mutex_unlock(philo->right_fork);
-		philo->table->nbr_time_philo_must_eat--;
+		print_philo(philo, current_time, "has taken a fork");
+		pthread_mutex_lock(philo->right_fork);
+		*current_time = get_time(philo, current_time);
+		print_philo(philo, current_time, "has taken a fork");
+		*current_time = get_time(philo, current_time);
+		print_philo(philo, current_time, "is eating");
+	}
+	else
+	{
+		pthread_mutex_lock(philo->right_fork);
+		*current_time = get_time(philo, current_time);
+		print_philo(philo, current_time, "has taken a fork");
+		pthread_mutex_lock(philo->left_fork);
+		*current_time = get_time(philo, current_time);
+		print_philo(philo, current_time, "has taken a fork");
+		*current_time = get_time(philo, current_time);
+		print_philo(philo, current_time, "is eating");
+	}
+	usleep(philo->table->time_to_eat * 1000);
+	pthread_mutex_unlock(philo->left_fork);
+	pthread_mutex_unlock(philo->right_fork);
+	if (philo->table->nbr_time_philo_must_eat >= 0)
+		philo->table->has_eaten++;
+	
 }
 
 void	sleeping(t_philo *philo, unsigned long *current_time)
@@ -60,3 +59,4 @@ void	thinking(t_philo *philo, unsigned long *current_time)
 	print_philo(philo, current_time, "is thinking");
 	usleep(philo->table->time_to_eat * 1000);
 }
+

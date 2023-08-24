@@ -6,7 +6,7 @@
 /*   By: malancar <malancar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 14:00:37 by malancar          #+#    #+#             */
-/*   Updated: 2023/08/23 16:30:50 by malancar         ###   ########.fr       */
+/*   Updated: 2023/08/24 18:33:42 by malancar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,10 @@ int	main(int ac, char **av)
 	philo = malloc(sizeof(t_philo) * nbr);
 	if (!philo)
 		return (0);
-	init_table(av, &table);
+	init_table(ac, av, &table);
 	if (!init_mutex(&table))
 		return (0);
 	init_thread(philo, &table);
+	
 	//printf("oki\n");
 }

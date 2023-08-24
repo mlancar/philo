@@ -6,7 +6,7 @@
 /*   By: malancar <malancar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 14:00:45 by malancar          #+#    #+#             */
-/*   Updated: 2023/08/23 16:28:27 by malancar         ###   ########.fr       */
+/*   Updated: 2023/08/24 18:33:54 by malancar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef	struct s_info
 	int				time_to_sleep;
 	int				time_to_eat;
 	int				nbr_time_philo_must_eat;
+	int				has_eaten;
 	unsigned long	start_time;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print;
@@ -61,7 +62,7 @@ void			print_philo(t_philo *philo, unsigned long *current_time, char *str);
 void			eating(t_philo *philo, unsigned long *current_time);
 void			sleeping(t_philo *philo, unsigned long *current_time);
 void			thinking(t_philo *philo, unsigned long *current_time);
-void			init_table(char **av, t_info *table);
+void			init_table(int ac, char **av, t_info *table);
 int				init_mutex(t_info *table);
 int				check_args(int ac, char **av);
 int				ft_atoi(char *str);

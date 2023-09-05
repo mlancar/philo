@@ -6,7 +6,7 @@
 /*   By: malancar <malancar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 14:00:45 by malancar          #+#    #+#             */
-/*   Updated: 2023/08/24 18:33:54 by malancar         ###   ########.fr       */
+/*   Updated: 2023/09/05 18:57:09 by malancar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,17 @@
 
 typedef	struct s_info
 {
-	int				nbr;
-	int				time_to_die;
-	int				time_to_sleep;
-	int				time_to_eat;
-	int				nbr_time_philo_must_eat;
-	int				has_eaten;
+	int	nbr;
+	unsigned long	time_to_die;
+	unsigned long	time_to_sleep;
+	unsigned long	time_to_eat;
+	int				nbr_meals;
+	long			has_eaten;
+	unsigned long	death_time;
+	int	meals;
+	
 	unsigned long	start_time;
+	
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print;
 	pthread_mutex_t	wait;
@@ -45,7 +49,7 @@ typedef	struct s_philo
 	t_info			*table;
 	//pthread_mutex_t	mutex;
 	pthread_t		tid;
-	int				index;
+	int	index;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
 	
@@ -67,7 +71,7 @@ int				init_mutex(t_info *table);
 int				check_args(int ac, char **av);
 int				ft_atoi(char *str);
 void			init_forks(t_info *table, t_philo *philo);
-
+void				check_death(t_philo *philo, unsigned long *current_time);
 
 	
 #endif

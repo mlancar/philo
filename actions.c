@@ -6,7 +6,7 @@
 /*   By: malancar <malancar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 14:40:31 by malancar          #+#    #+#             */
-/*   Updated: 2023/08/24 18:34:15 by malancar         ###   ########.fr       */
+/*   Updated: 2023/09/05 18:41:53 by malancar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	eating(t_philo *philo, unsigned long *current_time)
 	usleep(philo->table->time_to_eat * 1000);
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
-	if (philo->table->nbr_time_philo_must_eat >= 0)
+	if (philo->table->nbr_meals >= 0)
 		philo->table->has_eaten++;
 	
 }

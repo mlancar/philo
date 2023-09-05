@@ -6,7 +6,7 @@
 /*   By: malancar <malancar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 14:39:07 by malancar          #+#    #+#             */
-/*   Updated: 2023/08/24 18:33:33 by malancar         ###   ########.fr       */
+/*   Updated: 2023/09/05 18:41:40 by malancar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,12 @@ void	init_table(int ac, char **av, t_info *table)
 	table->time_to_eat = ft_atoi(av[3]);
 	table->time_to_sleep = ft_atoi(av[4]);
 	if (ac == 6)
-		table->nbr_time_philo_must_eat = ft_atoi(av[5]);
+	{
+		table->nbr_meals = ft_atoi(av[5]);
+		table->meals = 0;
+	}
 	else
-		table->nbr_time_philo_must_eat = -1;
+		table->nbr_meals = -1;
 	table->start_time = get_time_millisec();
 }
 

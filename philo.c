@@ -6,7 +6,7 @@
 /*   By: malancar <malancar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 14:00:37 by malancar          #+#    #+#             */
-/*   Updated: 2023/08/24 18:33:42 by malancar         ###   ########.fr       */
+/*   Updated: 2023/09/04 14:26:34 by malancar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,14 @@ int	main(int ac, char **av)
 	init_thread(philo, &table);
 	
 	//printf("oki\n");
+}
+
+void	check_death(t_philo *philo, unsigned long *current_time)
+{
+	//philo->table->death_time = get_time(philo, current_time);
+	//printf("time = %lu\n", philo->table->death_time);
+	if (philo->table->death_time > philo->table->time_to_die)
+	{
+		print_philo(philo, current_time, "died");
+	}
 }

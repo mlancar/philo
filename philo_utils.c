@@ -6,7 +6,7 @@
 /*   By: malancar <malancar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 18:08:28 by malancar          #+#    #+#             */
-/*   Updated: 2023/08/15 14:46:35 by malancar         ###   ########.fr       */
+/*   Updated: 2023/09/07 18:33:22 by malancar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,5 @@ int	check_atoi(char *str)
 	}
 	if ((result * sign) < 1 || (result * sign) > 2147483647)
 		return (0);
-	
 	return (1);
 }

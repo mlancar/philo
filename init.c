@@ -6,7 +6,7 @@
 /*   By: malancar <malancar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 14:39:07 by malancar          #+#    #+#             */
-/*   Updated: 2023/09/05 18:41:40 by malancar         ###   ########.fr       */
+/*   Updated: 2023/09/07 18:31:43 by malancar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,10 @@
 
 void	init_table(int ac, char **av, t_info *table)
 {
-	
 	table->nbr = ft_atoi(av[1]);
 	table->forks = malloc(sizeof(pthread_mutex_t) * table->nbr);
 	if (!table->forks)
 		return ;
-	//return 0 
 	table->has_eaten = 0;
 	table->time_to_die = ft_atoi(av[2]);
 	table->time_to_eat = ft_atoi(av[3]);
@@ -32,6 +30,7 @@ void	init_table(int ac, char **av, t_info *table)
 	else
 		table->nbr_meals = -1;
 	table->start_time = get_time_millisec();
+	table->is_dead = 0;
 }
 
 int	init_mutex(t_info *table)
@@ -43,18 +42,17 @@ int	init_mutex(t_info *table)
 	{
 		if (pthread_mutex_init(&table->forks[i], NULL) != 0)
 		{
-			//free;
-			printf("error\n");
+			printf("error\n");//free
 			return (0);
 		}
-		i++;		
+		i++;
 	}
 	if (pthread_mutex_init(&table->print, NULL) != 0)
 	{
 		printf("error ici\n");
 		return (0);
 	}
-	else if  (pthread_mutex_init(&table->wait, NULL) != 0)
+	else if (pthread_mutex_init(&table->wait, NULL) != 0)
 	{
 		printf("error la\n");
 		return (0);
@@ -70,3 +68,8 @@ void	init_forks(t_info *table, t_philo *philo)
 	else
 		philo->right_fork = &table->forks[(philo->index) + 1];
 }
+
+// void	init_table_value(t_philo *philo, int *i, int *meals, int *last_meals)
+// {
+// philo = (t_philo *)data;
+// }

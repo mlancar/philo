@@ -6,7 +6,7 @@
 /*   By: malancar <malancar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 14:00:45 by malancar          #+#    #+#             */
-/*   Updated: 2023/09/07 18:39:36 by malancar         ###   ########.fr       */
+/*   Updated: 2023/09/09 19:06:54 by malancar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct s_info
 	int				meals;
 	unsigned long	start_time;
 	int				is_dead;
+	unsigned long 	last_meal;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print;
 	pthread_mutex_t	wait;
@@ -51,18 +52,18 @@ int				ft_atoi(char *str);
 unsigned long	get_time_millisec(void);
 void			init_thread(t_philo *philo, t_info *table);
 unsigned long	get_time_millisec(void);
-unsigned long	get_time(t_philo *philo, unsigned long *current_time);
+void			get_time(t_philo *philo, unsigned long *current_time);
 void			print_philo(t_philo *philo, unsigned long *current_time, char *str);
-void			eating(t_philo *philo, unsigned long *current_time);
-void			sleeping(t_philo *philo, unsigned long *current_time);
-void			thinking(t_philo *philo, unsigned long *current_time);
+int				eating(t_philo *philo, unsigned long *current_time);
+int				sleeping(t_philo *philo, unsigned long *current_time);
+int				thinking(t_philo *philo, unsigned long *current_time);
 void			init_table(int ac, char **av, t_info *table);
 int				init_mutex(t_info *table);
 int				check_args(int ac, char **av);
 int				ft_atoi(char *str);
 void			init_forks(t_info *table, t_philo *philo);
-int				check_death(t_philo *philo, unsigned long last_meal, unsigned long *current_time);
+int				check_death(t_philo *philo, unsigned long *current_time);
 int				check_meals(t_philo *philo);
-int				check_meals_and_death(t_philo *philo, unsigned long last_meal, unsigned long *current_time);
+int				check_meals_and_death(t_philo *philo, unsigned long *current_time);
 
 #endif

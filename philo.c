@@ -6,7 +6,7 @@
 /*   By: malancar <malancar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 14:00:37 by malancar          #+#    #+#             */
-/*   Updated: 2023/09/09 19:44:31 by malancar         ###   ########.fr       */
+/*   Updated: 2023/09/09 23:11:12 by malancar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 void	get_time(t_philo *philo, unsigned long *current_time)
 {
+	pthread_mutex_lock(&philo->table->last_meal[philo->index]);
 	*current_time = get_time_millisec() - philo->table->start_time;
-	
+	pthread_mutex_unlock(&philo->table->last_meal[philo->index]);
 }
 
 unsigned long	get_time_millisec(void)
@@ -52,13 +53,18 @@ int	main(int ac, char **av)
 		pthread_join(philo[i].tid, NULL);
 		i++;
 	}
+	i = 0;
+	pthread_mutex_destroy(&table.print);
+	pthread_mutex_destroy(&table.wait);
+	while (i < table.nbr)
+	{
+		pthread_mutex_destroy(&table.forks[i]);
+		pthread_mutex_destroy(&table.last_meal[i]);
+		i++;
+	}
 	free(philo->table->forks);
 	free(philo);
-	pthread_mutex_destroy(philo->left_fork);
-	pthread_mutex_destroy(philo->right_fork);
-	pthread_mutex_destroy(philo->table->forks);
-	//pthread_mutex_destroy(philo->table->print);
-	//pthread_mutex_destroy(philo->table->wait);
+	
 	
 	
 

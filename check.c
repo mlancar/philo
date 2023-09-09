@@ -6,7 +6,7 @@
 /*   By: malancar <malancar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 14:44:56 by malancar          #+#    #+#             */
-/*   Updated: 2023/09/09 19:38:00 by malancar         ###   ########.fr       */
+/*   Updated: 2023/09/09 23:38:51 by malancar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,37 +48,39 @@ int	check_meals(t_philo *philo)
 	return (1);
 }
 
-int	check_death(t_philo *philo, unsigned long *current_time)
+int	check_death(t_philo *philo)
 {
 	unsigned long	time;
 	unsigned long	last_meal;
 
-	
-	last_meal = philo->table->last_meal;
+	pthread_mutex_lock(&philo->table->wait);
+	last_meal = philo->last_meal;
 	time = 0;
 	get_time(philo, &time);
-	//printf("%d : time_to_die = %lu, time = %lu, last_meal = %lu, time - last_meal = %lu\n", philo->index, philo->table->time_to_die, time, last_meal, time - last_meal);
+	pthread_mutex_unlock(&philo->table->wait);
 	if (time - last_meal > philo->table->time_to_die)
 	{
-		//printf("%d : time_to_die = %lu, time = %lu, last_meal = %lu, time - last_meal = %lu\n", philo->index, philo->table->time_to_die, time, last_meal, time - last_meal);
+		//printf("current_time = %lu, time = %lu\n", *current_time, time);
+		//printf("%d : time_to_die = %lu, time = %lu, last_meal = %lu, time - last_meal = %lu\n", philo->index + 1 , philo->table->time_to_die, time, last_meal, time - last_meal);
+		
 		if (philo->table->is_dead == 1)
 			return (0);
+		
 		pthread_mutex_lock(&philo->table->wait);
 		philo->table->is_dead = 1;
-		//printf("is_dead %d\n", philo->table->is_dead);
 		pthread_mutex_unlock(&philo->table->wait);
-		print_philo(philo, current_time, "died");
+		print_philo(philo, "died");
 		return (0);
 	}
 	return (1);
 }
 
-int	check_meals_and_death(t_philo *philo, unsigned long *current_time)
+int	check_meals_and_death(t_philo *philo)
 {
 	if (philo->table->is_dead == 1)
 		return (0);
 	if (check_meals(philo) == 0
-		|| check_death(philo, current_time) == 0)
+		|| check_death(philo) == 0)
 	{
 		return (0);
 	}

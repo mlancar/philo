@@ -6,7 +6,7 @@
 /*   By: malancar <malancar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 14:39:07 by malancar          #+#    #+#             */
-/*   Updated: 2023/09/07 18:31:43 by malancar         ###   ########.fr       */
+/*   Updated: 2023/09/09 23:20:08 by malancar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@ void	init_table(int ac, char **av, t_info *table)
 	table->nbr = ft_atoi(av[1]);
 	table->forks = malloc(sizeof(pthread_mutex_t) * table->nbr);
 	if (!table->forks)
+		return ;
+	table->last_meal = malloc(sizeof(pthread_mutex_t) * table->nbr);
+	if (!table->last_meal)
 		return ;
 	table->has_eaten = 0;
 	table->time_to_die = ft_atoi(av[2]);
@@ -40,19 +43,26 @@ int	init_mutex(t_info *table)
 	i = 0;
 	while (i < table->nbr)
 	{
-		if (pthread_mutex_init(&table->forks[i], NULL) != 0)
+		if ((pthread_mutex_init(&table->forks[i], NULL) != 0)
+			|| (pthread_mutex_init(&table->last_meal[i], NULL) != 0))
 		{
 			printf("error\n");//free
 			return (0);
 		}
 		i++;
 	}
+	i = 0;
 	if (pthread_mutex_init(&table->print, NULL) != 0)
 	{
 		printf("error ici\n");
 		return (0);
 	}
 	else if (pthread_mutex_init(&table->wait, NULL) != 0)
+	{
+		printf("error la\n");
+		return (0);
+	}
+	else if (pthread_mutex_init(&table->wait_meals, NULL) != 0)
 	{
 		printf("error la\n");
 		return (0);
@@ -69,7 +79,33 @@ void	init_forks(t_info *table, t_philo *philo)
 		philo->right_fork = &table->forks[(philo->index) + 1];
 }
 
-// void	init_table_value(t_philo *philo, int *i, int *meals, int *last_meals)
-// {
-// philo = (t_philo *)data;
-// }
+void	init_routine_value(t_philo *philo, int *meals)
+{
+	pthread_mutex_lock(&philo->table->wait);
+	*meals = 0;
+	philo->last_meal = 0;
+	pthread_mutex_unlock(&philo->table->wait);
+}
+
+void	init_thread(t_philo *philo, t_info *table)
+{
+	int	i;
+
+	i = 0;
+	philo->index = 0;
+	pthread_mutex_lock(&table->wait);
+	while (i < table->nbr)
+	{
+		philo[i].index = i;
+		philo[i].table = table;
+		init_forks(table, &philo[i]);
+		pthread_create(&philo[i].tid, NULL, thread_routine, &philo[i]);
+		if (philo[i].table->is_dead == 1)
+			return;
+		//printf("is dead = %d\n", philo[i].table->is_dead);
+		i++;
+	}
+	pthread_mutex_unlock(&table->wait);
+	i = 0;
+
+}

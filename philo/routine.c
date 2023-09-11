@@ -6,7 +6,7 @@
 /*   By: malancar <malancar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 14:40:31 by malancar          #+#    #+#             */
-/*   Updated: 2023/09/11 15:52:36 by malancar         ###   ########.fr       */
+/*   Updated: 2023/09/11 17:49:58 by malancar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	diner(t_philo *philo)
 	pthread_mutex_unlock(&philo->table->wait_meals);
 	return (1);
 }
+
 void	eating(t_philo *philo)
 {
 	if (philo->index % 2 == 0)

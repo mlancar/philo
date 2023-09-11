@@ -6,7 +6,7 @@
 /*   By: malancar <malancar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 14:00:45 by malancar          #+#    #+#             */
-/*   Updated: 2023/09/11 15:40:26 by malancar         ###   ########.fr       */
+/*   Updated: 2023/09/11 17:35:05 by malancar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,7 @@ void			count_meals(t_philo *philo, int meals);
 void			*thread_routine(void *data);
 void			free_and_destroy_mutex(t_philo *philo);
 void			error_message(char *str);
+int				ft_usleep(t_philo *philo, unsigned long time_max);
+
 
 #endif

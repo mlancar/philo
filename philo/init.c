@@ -6,7 +6,7 @@
 /*   By: malancar <malancar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 14:39:07 by malancar          #+#    #+#             */
-/*   Updated: 2023/09/11 15:41:51 by malancar         ###   ########.fr       */
+/*   Updated: 2023/09/11 17:49:36 by malancar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,6 @@ int	init_mutex(t_info *table)
 	}
 	return (1);
 }
-
-
 
 void	init_routine_value(t_philo *philo, int *meals)
 {

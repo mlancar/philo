@@ -6,13 +6,11 @@
 /*   By: malancar <malancar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 14:00:37 by malancar          #+#    #+#             */
-/*   Updated: 2023/09/11 15:52:29 by malancar         ###   ########.fr       */
+/*   Updated: 2023/09/11 17:49:45 by malancar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-
 
 int	main(int ac, char **av)
 {

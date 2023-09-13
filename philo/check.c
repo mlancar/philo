@@ -6,7 +6,7 @@
 /*   By: malancar <malancar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 14:44:56 by malancar          #+#    #+#             */
-/*   Updated: 2023/09/11 15:34:45 by malancar         ###   ########.fr       */
+/*   Updated: 2023/09/13 17:30:43 by malancar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,19 @@
 int	check_args(int ac, char **av)
 {
 	int	i;
-	int	j;
 
 	if (ac < 5 || ac > 6)
+	{
+		error_message("4 or 5 arguments expected\n");
 		return (0);
-	i = 0;
+	}
+	i = 1;
 	while (av[i])
 	{
-		j = 0;
-		while (av[i][j])
+		if ((ft_atoi(av[i]) == 0) || (check_atoi(av[i]) == 0))
 		{
-			if (av[i][j] < '0' && av[i][j] > '9')
-				return (0);
-			j++;
+			error_message("positive number only\n");
+			return (0);
 		}
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: malancar <malancar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 14:00:45 by malancar          #+#    #+#             */
-/*   Updated: 2023/09/11 17:35:05 by malancar         ###   ########.fr       */
+/*   Updated: 2023/09/13 16:46:56 by malancar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,32 +47,43 @@ typedef struct s_philo
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
 	unsigned long	last_meal;
+	int				count_mutex;
 }	t_philo;
 
 int				ft_atoi(char *str);
+int				check_atoi(char *str);
 unsigned long	get_time_millisec(void);
+
 void			init_thread(t_philo *philo, t_info *table);
-unsigned long	get_time_millisec(void);
-void			get_time(t_philo *philo, unsigned long *current_time);
-void			print_philo(t_philo *philo, char *str);
-int				diner(t_philo *philo);
+void			init_table(int ac, char **av, t_info *table);
+int				init_mutex(t_philo *philo, t_info *table);
+int				init_mutex_arrays(t_philo *philo, t_info *table);
+void			init_routine_value(t_philo *philo, int *meals);
+
+void			*living(void *data);
+int				routine(t_philo *philo, int	*meals);
+int				diner_time(t_philo *philo);
 void			eating(t_philo *philo);
 int				sleeping(t_philo *philo);
 int				thinking(t_philo *philo);
-void			init_table(int ac, char **av, t_info *table);
-int				init_mutex(t_info *table);
+
 int				check_args(int ac, char **av);
-int				ft_atoi(char *str);
-void			set_forks(t_info *table, t_philo *philo);
 int				check_death(t_philo *philo);
 int				check_meals(t_philo *philo);
 int				check_meals_and_death(t_philo *philo);
-void			init_routine_value(t_philo *philo, int *meals);
-void			count_meals(t_philo *philo, int meals);
-void			*thread_routine(void *data);
+
+void			set_forks(t_info *table, t_philo *philo);
+
+void			count_meals(t_philo *philo, int *meals);
+int				ft_usleep(t_philo *philo, unsigned long time_max);
+void			wait_threads(t_philo *philo, t_info *table);
+unsigned long	get_time_millisec(void);
+void			get_time(t_philo *philo, unsigned long *current_time);
+void			print_philo(t_philo *philo, char *str);
+
 void			free_and_destroy_mutex(t_philo *philo);
 void			error_message(char *str);
-int				ft_usleep(t_philo *philo, unsigned long time_max);
 
+void			lonely_philo(t_philo *philo, t_info *table);
 
 #endif

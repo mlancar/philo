@@ -6,25 +6,28 @@
 #    By: malancar <malancar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/11 17:31:42 by malancar          #+#    #+#              #
-#    Updated: 2023/09/11 17:40:15 by malancar         ###   ########.fr        #
+#    Updated: 2023/09/13 16:47:34 by malancar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC	= cc
 
-CFLAGS	= -Wextra -Werror -Wall
+CFLAGS	= -Wextra -Werror -Wall -g
 
 NAME	= philo
 
 HEADER = philo.h
 
-SRC		= check.c		\
-		  philo.c		\
-		  philo_utils.c	\
-		  routine.c		\
-		  init.c		\
-		  finishing.c	\
-		  to_be_name.c
+SRC		= check.c			\
+		  philo.c			\
+		  utils.c			\
+		  utils_2.c			\
+		  routine.c			\
+		  init.c			\
+		  dishes.c			\
+		  time.c			\
+		  lonely_philo.c	\
+		  main.c		
 
 OBJ =	$(SRC:.c=.o)
 DEPS = $(SRC:.c=.d)

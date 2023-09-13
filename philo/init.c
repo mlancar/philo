@@ -6,7 +6,7 @@
 /*   By: malancar <malancar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 14:39:07 by malancar          #+#    #+#             */
-/*   Updated: 2023/09/11 17:49:36 by malancar         ###   ########.fr       */
+/*   Updated: 2023/09/13 16:28:41 by malancar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,21 +36,13 @@ void	init_table(int ac, char **av, t_info *table)
 	table->is_dead = 0;
 }
 
-int	init_mutex(t_info *table)
+int	init_mutex(t_philo *philo, t_info *table)
 {
-	int	i;
-
-	i = 0;
-	while (i < table->nbr)
+	if (init_mutex_arrays(philo, table) != 1)
 	{
-		if (pthread_mutex_init(&table->forks[i], NULL) != 0)
-		{
-			error_message("pthread_mutex_init failed\n");
-			return (0);
-		}
-		i++;
+		error_message("pthread_mutex_init failed\n");
+		return (0);
 	}
-	i = 0;
 	if (pthread_mutex_init(&table->print, NULL) != 0)
 	{
 		error_message("pthread_mutex_init failed\n");
@@ -65,6 +57,25 @@ int	init_mutex(t_info *table)
 	{
 		error_message("pthread_mutex_init failed\n");
 		return (0);
+	}
+	return (1);
+}
+
+int	init_mutex_arrays(t_philo *philo, t_info *table)
+{
+	int	i;
+
+	i = 0;
+	philo->count_mutex = 0;
+	while (i < table->nbr)
+	{
+		if ((pthread_mutex_init(&table->forks[i], NULL) != 0)
+			|| (pthread_mutex_init(&table->last_meal[i], NULL) != 0))
+		{
+			error_message("pthread_mutex_init failed\n");
+			return (0);
+		}
+		i++;
 	}
 	return (1);
 }
@@ -89,7 +100,7 @@ void	init_thread(t_philo *philo, t_info *table)
 		philo[i].index = i;
 		philo[i].table = table;
 		set_forks(table, &philo[i]);
-		pthread_create(&philo[i].tid, NULL, thread_routine, &philo[i]);
+		pthread_create(&philo[i].tid, NULL, living, &philo[i]);
 		if (philo[i].table->is_dead == 1)
 			return ;
 		i++;
